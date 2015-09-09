@@ -1,46 +1,55 @@
 <?php
-function brsb_install() {
+
+function brsb_install()
+{
     global $wpdb;
 
-    $charsetCollate = $wpdb->get_charset_collate();
+    require_once ABSPATH.'wp-admin/includes/upgrade.php';
+
+    $charset_collate = $wpdb->get_charset_collate();
     $prefix = $wpdb->prefix;
 
-    $sql = "CREATE TABLE IF NOT EXISTS `${prefix}brsb_state` (
-          `idbrsb_state` INT NOT NULL AUTO_INCREMENT,
-          `uf` CHAR(2) NOT NULL,
-          `name` VARCHAR(50) NOT NULL,
-          PRIMARY KEY (`idbrsb_state`),
-          INDEX `uf_INDEX` (`uf` ASC),
-          UNIQUE INDEX `uf_UNIQUE` (`uf` ASC))
-          ${charsetCollate};";
+    $sql_state = "CREATE TABLE IF NOT EXISTS `${prefix}brsb_state` (
+            `idbrsb_state` INT NOT NULL AUTO_INCREMENT,
+            `uf` CHAR(2) NOT NULL,
+            `name` VARCHAR(50) NOT NULL,
+            PRIMARY KEY (`idbrsb_state`),
+            INDEX `uf_INDEX` (`uf` ASC),
+            UNIQUE INDEX `uf_UNIQUE` (`uf` ASC))
+            ${charset_collate};
+    ";
 
-    $sql2 = "CREATE TABLE IF NOT EXISTS `${prefix}brsb_city` (
-            `idbrsb_city` INT NOT NULL AUTO_INCREMENT,
+    dbDelta($sql_state);
+
+    $sql_unit = "CREATE TABLE IF NOT EXISTS `${prefix}brsb_unit` (
+            `idbrsb_unit` INT NOT NULL AUTO_INCREMENT,
             `idbrsb_state` INT NULL,
             `name` VARCHAR(80) NULL,
+            `url` VARCHAR(100) NULL,
+            `address` VARCHAR(150) NULL,
+            `phone` VARCHAR(150) NULL,
             `description` VARCHAR(255) NULL,
-            PRIMARY KEY (`idbrsb_city`),
-            INDEX `fk_brsb_city_state_idx` (`idbrsb_state` ASC),
-            CONSTRAINT `fk_brsb_city_state`
+            PRIMARY KEY (`idbrsb_unit`),
+            INDEX `fk_brsb_unit_state_idx` (`idbrsb_state` ASC),
+            CONSTRAINT `fk_brsb_unit_state`
             FOREIGN KEY (`idbrsb_state`)
             REFERENCES `${prefix}brsb_state` (`idbrsb_state`)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION)
-            ${charsetCollate};";
+            ${charset_collate};";
 
-    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-    dbDelta($sql);
-    dbDelta($sql2);
+    dbDelta($sql_unit);
 }
 
-function brsb_install_data() {
+function brsb_install_data()
+{
     global $wpdb;
 
     $wpdb->insert(
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'AC',
-            'name' => 'Acre'
+            'name' => 'Acre',
         )
     );
 
@@ -48,7 +57,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'AL',
-            'name' => 'Alagoas'
+            'name' => 'Alagoas',
         )
     );
 
@@ -56,7 +65,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'AM',
-            'name' => 'Amazonas'
+            'name' => 'Amazonas',
         )
     );
 
@@ -64,7 +73,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'AP',
-            'name' => 'Amapá'
+            'name' => 'Amapá',
         )
     );
 
@@ -72,7 +81,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'BA',
-            'name' => 'Bahia'
+            'name' => 'Bahia',
         )
     );
 
@@ -80,7 +89,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'CE',
-            'name' => 'Ceará'
+            'name' => 'Ceará',
         )
     );
 
@@ -88,7 +97,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'DF',
-            'name' => 'Distrito Federal'
+            'name' => 'Distrito Federal',
         )
     );
 
@@ -96,7 +105,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'ES',
-            'name' => 'Espírito Santo'
+            'name' => 'Espírito Santo',
         )
     );
 
@@ -104,7 +113,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'GO',
-            'name' => 'Goiás'
+            'name' => 'Goiás',
         )
     );
 
@@ -112,7 +121,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'MA',
-            'name' => 'Maranhão'
+            'name' => 'Maranhão',
         )
     );
 
@@ -120,7 +129,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'MG',
-            'name' => 'Minas Gerais'
+            'name' => 'Minas Gerais',
         )
     );
 
@@ -128,7 +137,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'MS',
-            'name' => 'Mato Grosso do Sul'
+            'name' => 'Mato Grosso do Sul',
         )
     );
 
@@ -136,7 +145,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'MT',
-            'name' => 'Mato Grosso'
+            'name' => 'Mato Grosso',
         )
     );
 
@@ -144,7 +153,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'PA',
-            'name' => 'Pará'
+            'name' => 'Pará',
         )
     );
 
@@ -152,7 +161,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'PB',
-            'name' => 'Paraíba'
+            'name' => 'Paraíba',
         )
     );
 
@@ -160,7 +169,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'PE',
-            'name' => 'Pernambuco'
+            'name' => 'Pernambuco',
         )
     );
 
@@ -168,7 +177,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'PI',
-            'name' => 'Piauí'
+            'name' => 'Piauí',
         )
     );
 
@@ -176,7 +185,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'PR',
-            'name' => 'Paraná'
+            'name' => 'Paraná',
         )
     );
 
@@ -184,7 +193,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'RJ',
-            'name' => 'Rio de Janeiro'
+            'name' => 'Rio de Janeiro',
         )
     );
 
@@ -192,7 +201,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'RN',
-            'name' => 'Rio Grande do Norte'
+            'name' => 'Rio Grande do Norte',
         )
     );
 
@@ -200,7 +209,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'RR',
-            'name' => 'Roraima'
+            'name' => 'Roraima',
         )
     );
 
@@ -208,7 +217,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'RO',
-            'name' => 'Rondônia'
+            'name' => 'Rondônia',
         )
     );
 
@@ -216,7 +225,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'RS',
-            'name' => 'Rio Grande do Sul'
+            'name' => 'Rio Grande do Sul',
         )
     );
 
@@ -224,7 +233,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'SC',
-            'name' => 'Santa Catarina'
+            'name' => 'Santa Catarina',
         )
     );
 
@@ -232,7 +241,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'SE',
-            'name' => 'Sergipe'
+            'name' => 'Sergipe',
         )
     );
 
@@ -240,7 +249,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'SP',
-            'name' => 'São Paulo'
+            'name' => 'São Paulo',
         )
     );
 
@@ -248,8 +257,7 @@ function brsb_install_data() {
         $wpdb->prefix.'brsb_state',
         array(
             'uf' => 'TO',
-            'name' => 'Tocantins'
+            'name' => 'Tocantins',
         )
     );
-
 }
