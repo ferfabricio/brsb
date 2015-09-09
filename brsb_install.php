@@ -10,6 +10,7 @@ function brsb_install() {
           `uf` CHAR(2) NOT NULL,
           `name` VARCHAR(50) NOT NULL,
           PRIMARY KEY (`idbrsb_state`),
+          INDEX `uf_INDEX` (`uf` ASC),
           UNIQUE INDEX `uf_UNIQUE` (`uf` ASC))
           ${charsetCollate};";
 

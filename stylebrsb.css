@@ -1,0 +1,34 @@
+.brsb-states {
+	width: 100%;
+	float: left;
+}
+.brsb-states ul {
+	width: 33%;
+	float: left;
+    padding: 10px 10px 10px 30px;
+}
+.brsb-states ul li {
+    list-style: none;
+}
+.brsb-states ul li div {
+    display: inline;
+}
+.brsb-uf {
+	width: 25px;
+	font-size: 15px;
+	text-align: center;
+	color: white;
+	background: rgb(171, 207, 71);
+    float: left;
+    margin-top: 3px;
+}
+.brsb-name {
+    margin: 0px 0px 5px 5px;
+    font-size: 13px;
+}
+.brsb-clear {
+	clear: both;
+}
+.brsb-result {
+    width: 100%;
+}
